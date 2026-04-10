@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Student {
+    char name[20];
+    int roll;
+    int std;
+    char div;
+
+    struct Student* next;
+};
+struct Student* create() {
+    struct Student *n;
+
+    n = (struct Student*)malloc(sizeof(struct Student));
+
+    printf("Enter Name: ");
+    scanf("%s", n->name);
+
+    printf("Enter Roll: ");
+    scanf("%d", &n->roll);
+
+    printf("Enter Standard: ");
+    scanf("%d", &n->std);
+
+    printf("Enter Division: ");
+    scanf(" %c", &n->div);
+
+    n->next = NULL;
+
+    return n;
+}
+void display(struct Student *n) {
+    printf("\nStudent Data:\n");
+    printf("Name: %s\n", n->name);
+    printf("Roll: %d\n", n->roll);
+    printf("Standard: %d\n", n->std);
+    printf("Division: %c\n", n->div);
+}
+int main() {
+    struct Student *head;
+
+    head = create();
+    display(head);
+
+    return 0;
+}
