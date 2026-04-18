@@ -1,0 +1,86 @@
+/*
+write a c program to Create a Singly linked list and Delete the node at the Head position
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node {
+    int data;
+    struct node* next;
+} node;
+
+node* insert(node* head, int value) {
+    node* newnode = malloc(sizeof(node));
+    if (newnode == NULL) return head;
+
+    newnode->data = value;
+    newnode->next = NULL;
+
+    if (head == NULL)
+        return newnode;
+
+    node* temp = head;
+    while (temp->next != NULL)
+        temp = temp->next;
+
+    temp->next = newnode;
+    return head;
+}
+
+node* deleteAtHead(node* head) {
+    if (head == NULL)
+        return NULL;
+
+    node* temp = head;
+    head = head->next;
+    free(temp);
+
+    return head;
+}
+
+void display(node* head) {
+    node* temp = head;
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+void destroyList(node* head) {
+    node* temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+
+int main() {
+    node* head = NULL;
+    int n, value;
+
+    printf("Enter number of nodes: ");
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        printf("Enter value %d: ", i + 1);
+        scanf("%d", &value);
+        head = insertAtTail(head, value);
+    }
+
+    printf("\nOriginal List:\n");
+    display(head);
+
+    head = deleteAtHead(head);
+
+    printf("\nAfter Deleting Head:\n");
+    display(head);
+
+    destroyList(head);
+
+    printf("Destroyed created list\n");
+
+    return 0;
+}
