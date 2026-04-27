@@ -1,6 +1,7 @@
 /*
 write a c program to Create a Singly linked list 
 and Delete the node at head
+
 */
 #include <stdio.h>
 #include <stdlib.h>
