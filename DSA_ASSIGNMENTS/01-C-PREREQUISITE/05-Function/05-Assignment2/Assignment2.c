@@ -8,8 +8,14 @@ int stringLength(char str[]) {
     }
     return i;
 }
+
 int main() {
-    char str[] = "Hello";
-    printf("Length = %d", stringLength(str));
+    char str[100];
+
+    printf("Enter a string: ");
+    fgets(str, sizeof(str), stdin);
+
+    printf("Length = %d", stringLength(str) - 1); // remove newline
+
     return 0;
 }
