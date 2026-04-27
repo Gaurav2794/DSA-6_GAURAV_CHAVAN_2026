@@ -1,5 +1,6 @@
 /*
-write a c program to Create a Singly linked list and Delete the node in the given position
+write a c program to Create a Singly linked list 
+and Delete the node at head
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,32 +28,13 @@ node* insert(node* head, int value) {
     return head;
 }
 
-node* deleteAtPosition(node* head, int pos) {
-    if (head == NULL || pos <= 0)
-        return head;
-
-    if (pos == 1) {
-        node* temp = head;
-        head = head->next;
-        free(temp);
-        return head;
-    }
+node* deleteAtHead(node* head) {
+    if (head == NULL)
+        return NULL;
 
     node* temp = head;
-
-    // move to (pos-1) node safely
-    for (int i = 1; i < pos - 1; i++) {
-        if (temp->next == NULL)
-            return head;
-        temp = temp->next;
-    }
-
-    if (temp->next == NULL)
-        return head;
-
-    node* del = temp->next;
-    temp->next = del->next;
-    free(del);
+    head = head->next;
+    free(temp);
 
     return head;
 }
@@ -65,9 +47,18 @@ void display(node* head) {
     printf("NULL\n");
 }
 
+void destroyList(node* head) {
+    node* temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+
 int main() {
     node* head = NULL;
-    int n, value, pos;
+    int n, value;
 
     printf("Enter number of nodes: ");
     scanf("%d", &n);
@@ -80,13 +71,12 @@ int main() {
     printf("List: ");
     display(head);
 
-    printf("Enter position to delete: ");
-    scanf("%d", &pos);
+    head = deleteAtHead(head);
 
-    head = deleteAtPosition(head, pos);
-
-    printf("Updated List: ");
+    printf("After deleting head: ");
     display(head);
+
+    destroyList(head);
 
     return 0;
 }
