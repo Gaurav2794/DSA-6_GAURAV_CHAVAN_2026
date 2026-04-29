@@ -6,17 +6,17 @@ write a c program to Create and Display Singly Linked list. with structure "Stud
 -Division*/
 #include <stdio.h>
 #include <stdlib.h>
+
 struct Student {
     char name[20];
     int roll;
     int std;
     char div;
-
     struct Student* next;
 };
+
 struct Student* create() {
     struct Student *n;
-
     n = (struct Student*)malloc(sizeof(struct Student));
 
     printf("Enter Name: ");
@@ -32,9 +32,9 @@ struct Student* create() {
     scanf(" %c", &n->div);
 
     n->next = NULL;
-
     return n;
 }
+
 void display(struct Student *n) {
     printf("\nStudent Data:\n");
     printf("Name: %s\n", n->name);
@@ -42,11 +42,23 @@ void display(struct Student *n) {
     printf("Standard: %d\n", n->std);
     printf("Division: %c\n", n->div);
 }
+
+void destroy(struct Student *head) {
+    struct Student *temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+
 int main() {
     struct Student *head;
 
     head = create();
     display(head);
+
+    destroy(head);
 
     return 0;
 }
