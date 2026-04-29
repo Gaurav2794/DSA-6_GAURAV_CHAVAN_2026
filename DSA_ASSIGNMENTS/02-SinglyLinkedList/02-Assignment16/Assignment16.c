@@ -54,11 +54,21 @@ void display(node* head) {
 }
 
 void displayReverse(node* head) {
-    if (head == NULL)
-        return;
+    int ids[100], top = -1;
+    char names[100][20];
 
-    displayReverse(head->next);
-    printf("%d %s\n", head->id, head->name);
+    node* temp = head;
+
+    while (temp != NULL) {
+        ids[++top] = temp->id;
+        strcpy(names[top], temp->name);
+        temp = temp->next;
+    }
+
+    while (top >= 0) {
+        printf("%d %s\n", ids[top], names[top]);
+        top--;
+    }
 }
 
 void destroyList(node* head) {
