@@ -11,8 +11,9 @@ typedef struct node {
 } node;
 
 node* createNode(int value) {
-    node* newnode = malloc(sizeof(node));
+    node* newnode = (node*)malloc(sizeof(node));
     if (newnode == NULL) return NULL;
+
     newnode->data = value;
     newnode->next = NULL;
     return newnode;
@@ -46,6 +47,7 @@ node* insertAtPosition(node* head, int value, int pos) {
 
     for (int i = 1; i < pos - 1; i++) {
         if (temp == NULL) {
+            printf("Invalid position\n");
             free(newnode);
             return head;
         }
@@ -53,6 +55,7 @@ node* insertAtPosition(node* head, int value, int pos) {
     }
 
     if (temp == NULL) {
+        printf("Invalid position\n");
         free(newnode);
         return head;
     }
@@ -72,6 +75,15 @@ void display(node* head) {
     printf("NULL\n");
 }
 
+void destroy(node* head) {
+    node* temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+
 int main() {
     node* head = NULL;
     int n, value, pos;
@@ -82,7 +94,6 @@ int main() {
     for (int i = 0; i < n; i++) {
         printf("Enter value %d: ", i + 1);
         scanf("%d", &value);
-
         head = insertAtTail(head, value);
     }
 
