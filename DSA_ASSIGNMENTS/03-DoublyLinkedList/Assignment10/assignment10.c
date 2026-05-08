@@ -3,8 +3,8 @@
 
 typedef struct node {
     int data;
-    struct node* prev;
-    struct node* next;
+    struct node *prev;
+    struct node *next;
 } Node;
 
 Node* createNode(int value) {
@@ -30,9 +30,8 @@ Node* insertEnd(Node* head, int value) {
 
     Node* temp = head;
 
-    while (temp->next != NULL) {
+    while (temp->next != NULL)
         temp = temp->next;
-    }
 
     temp->next = newNode;
     newNode->prev = temp;
@@ -40,45 +39,46 @@ Node* insertEnd(Node* head, int value) {
     return head;
 }
 
-Node* deleteByValue(Node* head, int key) {
-    if (head == NULL) {
-        printf("List is empty!\n");
+Node* removeDuplicates(Node* head) {
+    if (head == NULL)
         return NULL;
+
+    Node *current, *runner, *duplicate;
+
+    current = head;
+
+    while (current != NULL) {
+        runner = current->next;
+
+        while (runner != NULL) {
+            if (current->data == runner->data) {
+                duplicate = runner;
+                runner = runner->next;
+
+                if (duplicate->next != NULL)
+                    duplicate->next->prev = duplicate->prev;
+
+                duplicate->prev->next = duplicate->next;
+
+                free(duplicate);
+            } else {
+                runner = runner->next;
+            }
+        }
+
+        current = current->next;
     }
-
-    Node* temp = head;
-
-    while (temp != NULL && temp->data != key) {
-        temp = temp->next;
-    }
-
-    if (temp == NULL) {
-        printf("Value not found!\n");
-        return head;
-    }
-
-    if (temp == head) {
-        head = head->next;
-
-        if (head != NULL)
-            head->prev = NULL;
-
-        free(temp);
-        return head;
-    }
-
-    if (temp->next != NULL)
-        temp->next->prev = temp->prev;
-
-    temp->prev->next = temp->next;
-
-    free(temp);
 
     return head;
 }
 
 void display(Node* head) {
     Node* temp = head;
+
+    if (head == NULL) {
+        printf("List is empty!\n");
+        return;
+    }
 
     while (temp != NULL) {
         printf("%d <-> ", temp->data);
@@ -102,7 +102,7 @@ Node* destroyList(Node* head) {
 
 int main() {
     Node* head = NULL;
-    int n, value, key, i;
+    int n, value, i;
 
     printf("Enter number of nodes: ");
     scanf("%d", &n);
@@ -116,12 +116,9 @@ int main() {
     printf("\nOriginal List:\n");
     display(head);
 
-    printf("\nEnter value to delete: ");
-    scanf("%d", &key);
+    head = removeDuplicates(head);
 
-    head = deleteByValue(head, key);
-
-    printf("\nUpdated List:\n");
+    printf("\nList After Removing Duplicates:\n");
     display(head);
 
     head = destroyList(head);
