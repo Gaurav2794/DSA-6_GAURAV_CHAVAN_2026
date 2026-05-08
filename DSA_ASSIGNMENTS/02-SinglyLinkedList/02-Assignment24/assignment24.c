@@ -45,6 +45,7 @@ Node* deleteBeforeKey(Node* head, int key) {
         return head;
     }
 
+    // If key is in second node, delete first node
     if (head->next->id == key) {
         Node* temp = head;
         head = head->next;
