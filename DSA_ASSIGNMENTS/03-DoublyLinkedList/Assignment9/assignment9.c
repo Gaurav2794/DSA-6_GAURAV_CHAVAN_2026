@@ -3,8 +3,8 @@
 
 typedef struct node {
     int data;
-    struct node* prev;
-    struct node* next;
+    struct node *prev;
+    struct node *next;
 } Node;
 
 Node* createNode(int value) {
@@ -25,8 +25,9 @@ Node* createNode(int value) {
 Node* insertEnd(Node* head, int value) {
     Node* newNode = createNode(value);
 
-    if (head == NULL)
+    if (head == NULL) {
         return newNode;
+    }
 
     Node* temp = head;
 
@@ -40,39 +41,39 @@ Node* insertEnd(Node* head, int value) {
     return head;
 }
 
-Node* deleteAtPosition(Node* head, int pos) {
+Node* deleteByKey(Node* head, int key) {
     if (head == NULL) {
         printf("List is empty!\n");
         return NULL;
     }
 
     Node* temp = head;
-    int i;
 
-    if (pos == 1) {
+    while (temp != NULL && temp->data != key) {
+        temp = temp->next;
+    }
+
+    if (temp == NULL) {
+        printf("Key not found!\n");
+        return head;
+    }
+
+    if (temp == head) {
         head = head->next;
 
-        if (head != NULL)
+        if (head != NULL) {
             head->prev = NULL;
+        }
 
         free(temp);
         return head;
     }
 
-    for (i = 1; i < pos && temp != NULL; i++) {
-        temp = temp->next;
-    }
-
-    if (temp == NULL) {
-        printf("Invalid Position!\n");
-        return head;
-    }
-
-    if (temp->next != NULL)
+    if (temp->next != NULL) {
         temp->next->prev = temp->prev;
+    }
 
-    if (temp->prev != NULL)
-        temp->prev->next = temp->next;
+    temp->prev->next = temp->next;
 
     free(temp);
 
@@ -81,6 +82,11 @@ Node* deleteAtPosition(Node* head, int pos) {
 
 void display(Node* head) {
     Node* temp = head;
+
+    if (head == NULL) {
+        printf("List is empty!\n");
+        return;
+    }
 
     while (temp != NULL) {
         printf("%d <-> ", temp->data);
@@ -104,7 +110,7 @@ Node* destroyList(Node* head) {
 
 int main() {
     Node* head = NULL;
-    int n, value, pos, i;
+    int n, value, key, i;
 
     printf("Enter number of nodes: ");
     scanf("%d", &n);
@@ -118,10 +124,10 @@ int main() {
     printf("\nOriginal List:\n");
     display(head);
 
-    printf("\nEnter position to delete: ");
-    scanf("%d", &pos);
+    printf("\nEnter key to delete: ");
+    scanf("%d", &key);
 
-    head = deleteAtPosition(head, pos);
+    head = deleteByKey(head, key);
 
     printf("\nUpdated List:\n");
     display(head);
